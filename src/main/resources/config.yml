@@ -1,0 +1,87 @@
+# GuestSystem
+# How many guests one player can sponsor at a time
+max-guests-per-sponsor: 2
+
+# When a sponsor logs off, how many seconds their guests get before being kicked
+sponsor-leave-grace-seconds: 60
+
+# guests can play a limited amount each day WITHOUT their sponsor online.
+solo-time:
+  enabled: true
+  # Minutes per day a guest can play with their sponsor offline.
+  minutes-per-day: 100
+  # Preferred timezone (Limit resets at midnight in this timezone)
+  timezone: America/New_York
+  # Warn the guest at this many minutes remaining
+  warn-at-minutes: [10, 5, 1]
+
+# LuckPerms group given to guests, Created automatically if it doesn't exist
+# Map this group to a Discord role in EssentialsDiscordLink's config under role-sync -> groups:
+#   guest: GUEST_ROLE_ID
+guest-group: guest
+
+# Prefix set on the guest group when the plugin creates it
+guest-prefix: '&7[Guest] '
+
+# LuckPerms group given to every non-guest when they join (and taken away from guests)
+# Map it to your "Member" Discord role in EssentialsDiscordLink under role-sync -> groups:
+#   member: MEMBER_ROLE_ID
+# so linked players get the Member role and guests get the Guest role, never both
+# Set to '' to turn this off
+member-group: member
+
+# Member gate: who counts as a real (non-guest) player
+# Without this, a guest who linked their Discord could later join on their own like anyone else
+# When enabled, linked players need the permission 'guestsystem.member' (or op) to join,
+# otherwise they must be an active guest whose sponsor is online
+# Easiest setup: sync a verified Discord role to a LuckPerms group in EssentialsDiscordLink:
+#   role-sync -> roles:  VERIFIED_ROLE_ID: verified
+# then: lp group verified permission set guestsystem.member
+member-gate:
+  enabled: false
+
+# Post guest add/remove events to Discord through EssentialsX Discord
+# The channel is set in plugins/EssentialsDiscord/config.yml under message-types -> guests
+discord-log: true
+
+# Messages. Use & color codes. Placeholders are listed above each one
+messages:
+  # {sponsor}  (used when solo time is off or used up)
+  sponsor-offline: "&cYou're a guest on this server.\n&7Your sponsor &f{sponsor}&7 needs to be online for you to play."
+  # {sponsor} {reset}
+  solo-used-up: "&cYou've used today's solo time.\n&7Play again when &f{sponsor}&7 is online, or after &f{reset}&7."
+  # {sponsor} {time}
+  solo-started: "&e{sponsor} isn't online, so you're on solo time. &f{time} &7left today."
+  # {time}
+  solo-warning: "&eSolo time: &f{time} &eleft today."
+  # {sponsor}
+  solo-paused: "&a{sponsor} is online! &7Your solo timer is paused."
+  # {sponsor} {reset}
+  solo-kick: "&7You've used today's solo time.\n&7Play again when &f{sponsor}&7 is online, or after &f{reset}&7."
+  # {time} {sponsor}
+  solo-status: "&7Solo time left today: &f{time}&7. Time with &f{sponsor}&7 online doesn't count."
+  not-a-guest: "&7You're not a guest, so there's no time limit for you."
+  # {sponsor} {seconds}
+  sponsor-left-warning: "&e{sponsor} logged off. &7You'll be disconnected in &f{seconds}s&7 unless they come back."
+  # {sponsor}
+  sponsor-left-kick: "&7Your sponsor &f{sponsor}&7 logged off.\n&7You can play again when they're back online."
+  # {sponsor}
+  guest-removed-kick: "&7Your guest access was removed by &f{sponsor}&7."
+  # {guest}
+  added: "&aAdded &f{guest}&a as your guest. &7Have them join the server, link their Discord with the code they get, then rejoin while you're online."
+  # {guest}
+  removed: "&aRemoved &f{guest}&a from your guests."
+  # {max}
+  limit-reached: "&cYou can only sponsor {max} guests at a time. &7Remove one with /guest remove <name>."
+  # {guest} {sponsor}
+  already-guest: "&c{guest} is already a guest of {sponsor}."
+  # {guest}
+  not-your-guest: "&c{guest} isn't one of your guests."
+  guests-cant-sponsor: "&cGuests can't sponsor other guests."
+  not-a-member: "&cThis server is members only.\n&7If you know a member, ask them to run &f/guest add <your name>&7."
+  cant-add-self: "&cYou can't be your own guest."
+  invalid-name: "&cThat doesn't look like a valid username. &7Bedrock players start with a dot, like &f.Steve"
+  # {sponsor} {guest}  (Discord)
+  discord-added: ":bust_in_silhouette: **{sponsor}** added **{guest}** as a guest"
+  # {sponsor} {guest}  (Discord)
+  discord-removed: ":wave: **{sponsor}** removed guest **{guest}**"

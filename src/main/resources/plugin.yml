@@ -1,0 +1,24 @@
+name: GuestSystem
+version: '${project.version}'
+main: zone.justi.guestsystem.GuestSystem
+api-version: '26.2'
+description: Lets players sponsor guests who play alongside them, with a daily solo time limit.
+author: Justin
+softdepend: [LuckPerms, EssentialsDiscord, EssentialsDiscordLink]
+
+commands:
+  guest:
+    description: Sponsor a friend as a guest
+    usage: /guest <add|remove|list|time|info|reload>
+    aliases: [guests]
+
+permissions:
+  guestsystem.sponsor:
+    description: Can sponsor guests with /guest add, remove, list
+    default: true
+  guestsystem.member:
+    description: Counts as a full member when member-gate is enabled (give this to your regular player group)
+    default: false
+  guestsystem.admin:
+    description: Can view and manage everyone's guests, and reload
+    default: op
